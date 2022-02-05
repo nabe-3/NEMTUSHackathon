@@ -82,12 +82,12 @@ function draw() {
 	g.fillText( "S Y M B A L L", WIDTH / 2 - MESH * 3, MESH - 2 );
 
 	g.fillStyle = "#777777";
-	g.fillText( text[0], 350, 180 );
-	g.fillText( text[1], 100, 300 );
-	g.fillText( text[2], 100, 450 );
-	g.fillText( text[5], 350, 330 );
-	g.fillText( text[3], 100, 150 );
-	g.fillText( text[4], 350, 480 );
+	g.fillText( text[0], 300, 180 );
+	g.fillText( text[1], 80,  270 );
+	g.fillText( text[2], 80,  420 );
+	g.fillText( text[3], 80,  120 );
+	g.fillText( text[4], 300, 480 );
+	g.fillText( text[5], 300, 330 );
 
 	if( gLife <= 0 ) {
 	    g.font = "48px monospace";
@@ -172,7 +172,6 @@ ws.onmessage=function( event ) {
 
         var amount = parseInt(response.data.transaction.mosaics[0].amount)/1000000;
         if( response.data.transaction.mosaics[0].id == "6BED913FA20223F8" ) {
-            //if( response.data.transaction.mosaics[0].amount >= 1000000 ) {
             if( amount >= 1 ) {
                 while ( index < len ) {
                     var tmpstr = str.substr( index, 2 );
@@ -180,18 +179,36 @@ ws.onmessage=function( event ) {
                     index += 2;
                 }
                 console.log( "message:" + message );
+
                 if( message == "ball_add" ) {
-                    gBall.push( new Ball( 0 ) );
-                    gBall.push( new Ball( 1 ) );
-                    gBall.push( new Ball( 2 ) );
-                }
-                else if( message == "life_up" ) gLife += 2;
-                else if( message == "speed_up" ) speed += 4;
-				else if( message == "score_up" ) gScore += amount;
+					console.log("ball add command");
+					gBall.push( new Ball( 0 ) );
+					gBall.push( new Ball( 1 ) );
+					gBall.push( new Ball( 2 ) );
+				}
+                else if( message == "life_up" ) {
+					console.log("life up command");
+					gLife += 2;
+					gBall.push( new Ball( 3 ) );
+				}
+                else if( message == "speed_up" ) {
+					console.log("speed up command");
+					if ( speed <= 16 ) speed += 4;
+				}
+				else if ( message == "speed_down" ) {
+					console.log("speed down command");
+					if ( speed > 4 ) speed -= 4;
+				}
+				else if( message == "score_up" ) {
+					console.log("score up command");
+					gScore += amount;
+				}
                 else {
+					console.log("message command");
                     text[textCount % 6] = message+" ["+amount+"XYM]";
                     textCount++;
-                };
+                }
+				console.log("end");
             }
         }
     }
@@ -204,4 +221,3 @@ ws.onclose = function( event ) {
 ws.onerror = function() {
     console.log( "connection error" );
 }
-
