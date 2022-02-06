@@ -12,7 +12,8 @@ https://hackathon-2022.nemtus.com/
 
 
 ## コマンドの送り方
-以下の通りSymbolメインネットのトランザクションを送ると、ゲームに影響を与えることが出来ます。  
+以下の通りSymbolメインネットのトランザクションを送ると、ゲームに影響を与えることが出来ます。 
+GAME OVERになってから送っても反映されます。
   
 宛先アドレス：NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY  
 XYM転送量：0XYM以外（0.000001以上であればOK）  
