@@ -1,6 +1,6 @@
 ## NEMTUSHackathon
-https://hackathon-2022.nemtus.com/
-ハッカソン参加用のゲームプログラムです。  
+https://hackathon-2022.nemtus.com/  
+ハッカソン参加用のゲームプログラムです。    
 プレイは以下。  
 https://nabe-3.github.io/NEMTUSHackathon/
 
