@@ -10,6 +10,7 @@ https://hackathon-2022.nemtus.com/
 ## 遊び方
 矢印キーで紫色の自機を操作して玉を避けてください。
 
+![symball](https://user-images.githubusercontent.com/99067358/152674879-7353de86-198b-4a72-a3a6-f0adc5d13d17.png)
 
 ## コマンドの送り方
 Symbolメインネットのトランザクションを送ると、ゲームに影響を与えることが出来ます。  
