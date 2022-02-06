@@ -90,8 +90,8 @@ function draw() {
 	g.fillText( text[5], 300, 330 );
 
 	if( gLife <= 0 ) {
-	    g.font = "48px monospace";
-	    g.fillStyle = "#ffffff";
+		g.font = "48px monospace";
+		g.fillStyle = "#ffffff";
 		g.fillText( "GAME OVER", WIDTH / 2 - MESH * 4.5, HEIGHT / 2 );
 	}
 }
@@ -150,74 +150,74 @@ window.onload = function() {
 }
 
 // Symbol websocket
-var ws = new WebSocket( 'wss://zzz-symbol.link:3001/ws' );
+var ws = new WebSocket( "wss://zzz-symbol.link:3001/ws" );
 ws.onopen = function ( event ) {
-    console.log( "connection opened" );
+	console.log( "connection opened" );
 }
 
 ws.onmessage=function( event ) {
-    response=JSON.parse( event.data );
-    console.log( response );
-    if('uid' in response) { 
-        uid=response.uid;
-        transaction= '{"uid":"'+uid+'","subscribe":"unconfirmedAdded/NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY"}'
-        ws.send( transaction );
-        console.log( response.topic );
-    }
-    if(response.topic == "unconfirmedAdded/NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY") {
-        var index = 2;
-        var message = "";
-        var str = response.data.transaction.message;
-        var len = str.length;
+	response=JSON.parse( event.data );
+	console.log( response );
+	if('uid' in response) { 
+		uid=response.uid;
+		transaction= '{"uid":"'+uid+'", "subscribe":"unconfirmedAdded/NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY"}'
+		ws.send( transaction );
+		console.log( response.topic );
+	}
+	if(response.topic == "unconfirmedAdded/NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY") {
+		var index = 2;
+		var message = "";
+		var str = response.data.transaction.message;
+		var len = str.length;
 
-        var amount = parseInt(response.data.transaction.mosaics[0].amount)/1000000;
-        if( response.data.transaction.mosaics[0].id == "6BED913FA20223F8" ) {
-            if( amount >= 1 ) {
-                while ( index < len ) {
-                    var tmpstr = str.substr( index, 2 );
-                    message += String.fromCharCode( parseInt( tmpstr, 16 ) );
-                    index += 2;
-                }
-                console.log( "message:" + message );
+		var amount = parseInt(response.data.transaction.mosaics[0].amount);
+		if( response.data.transaction.mosaics[0].id == "6BED913FA20223F8" ) {
+			if( amount >= 1 ) {
+				while ( index < len ) {
+					var tmpstr = str.substr( index, 2 );
+					message += String.fromCharCode( parseInt( tmpstr, 16 ) );
+					index += 2;
+				}
+				console.log( "message:" + message );
 
-                if( message == "ball_add" ) {
-					console.log("ball add command");
+				if( message == "ball_add" ) {
+					console.log( "ball add command" );
 					gBall.push( new Ball( 0 ) );
 					gBall.push( new Ball( 1 ) );
 					gBall.push( new Ball( 2 ) );
 				}
-                else if( message == "life_up" ) {
-					console.log("life up command");
+				else if( message == "life_up" ) {
+					console.log( "life up command" );
 					gLife += 2;
 					gBall.push( new Ball( 3 ) );
 				}
-                else if( message == "speed_up" ) {
-					console.log("speed up command");
+				else if( message == "speed_up" ) {
+					console.log( "speed up command" );
 					if ( speed <= 16 ) speed += 4;
 				}
 				else if ( message == "speed_down" ) {
-					console.log("speed down command");
+					console.log( "speed down command" );
 					if ( speed > 4 ) speed -= 4;
 				}
 				else if( message == "score_up" ) {
-					console.log("score up command");
-					gScore += amount;
+					console.log( "score up command" );
+					gScore += amount / 1000000;
 				}
-                else {
-					console.log("message command");
-                    text[textCount % 6] = message+" ["+amount+"XYM]";
-                    textCount++;
-                }
-				console.log("end");
-            }
-        }
-    }
+	        	        else {
+					console.log( "message command" );
+					text[textCount % 6] = message + " [" + ( amount / 1000000 ) + "XYM]";
+					textCount++;
+				}
+				console.log( "end" );
+			}
+		}
+	}
 }
 
 ws.onclose = function( event ) {
-    console.log("connection closed" );
+	console.log("connection closed" );
 }
 
 ws.onerror = function() {
-    console.log( "connection error" );
+	console.log( "connection error" );
 }
