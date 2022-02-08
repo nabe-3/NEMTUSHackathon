@@ -118,8 +118,8 @@ function tick() {
 	gY = Math.max( MESH             , gY - gKey[ UP_KEY ] * ( MAG + speed ) );
 	gY = Math.min( HEIGHT - MESH * 2, gY + gKey[ DOWN_KEY ] * ( MAG + speed ) );
 
-	for( let i = 0; i < 4 + gScore / 24; i++ ) {
-		for( let i = gBall.length - 2; i >= 0; i-- ) {
+	for( let i = 0; i < 4 + gScore / 25; i++ ) {
+		for( let i = gBall.length - 1; i >= 0; i-- ) {
 			if( gBall[ i ].tick() ) {
 				gLife--;
 				gBall.splice( i, 1 );
@@ -127,14 +127,6 @@ function tick() {
 		}
 	}
 
-	for( let i = 0; i < 10 + gScore / 36; i++ ) {
-		if( gBall[ 0 ].tick() ) {
-			gLife--;
-			gBall.splice( 0, 1 );
-		}
-	}
-
-	
 	if ( gBall.length <= 2 ) {
 		gBall.push( new Ball( ballCount % 3 ) );
 		ballCount++;
