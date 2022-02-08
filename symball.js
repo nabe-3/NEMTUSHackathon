@@ -1,8 +1,12 @@
 // game implementation
-const WIDTH = 720;
-const HEIGHT = 540;
-const MAG = 6;
-const MESH = 24;
+const LEFT_KEY 	= 37;
+const UP_KEY 	= 38;
+const RIGHT_KEY = 39;
+const DOWN_KEY 	= 40;
+const WIDTH 	= 720;
+const HEIGHT 	= 540;
+const MAG 		= 6;
+const MESH 		= 24;
 const TIMER_INTERVAL = 33;
 
 var gStyle = "#ff00ff";
@@ -16,13 +20,14 @@ var gBall = [];
 var speed = 0;
 var text = ["", "", "", "", "", ""];
 var textCount = 0;
-var gColor = [ "#ff0000", "#00ffff", "#00ff00", "#ffff00" ];
+var ballCount = 0;
+var gColor = [ "#ffcc00", "#00ffff", "#00ff99" ];
 
 class Ball {
 	constructor( c ) {
 		this.mX = WIDTH / 2;
-		this.mY = MESH;
-		let	a = Math.random() * 2.5 + ( Math.PI - 2.5 ) / 2;
+		this.mY = MESH * 5; 
+		let	a = Math.random() * Math.PI * 2;
 		this.mDX = Math.cos( a );
 		this.mDY = Math.sin( a );
 		this.mStyle = gColor[ c ];
@@ -98,7 +103,8 @@ function draw() {
 
 function start() {
 	for( let i = 0; i < 10; i++ ) {
-		gBall.push( new Ball( i & 3 ) );
+		gBall.push( new Ball( ballCount % 3 ) );
+		ballCount++;
 	}
 }
 
@@ -107,17 +113,24 @@ function tick() {
 		return;
 	}
 
-	gX = Math.max( MESH             , gX - gKey[ 37 ] * ( MAG + speed ) );
-	gX = Math.min( WIDTH - MESH * 2 , gX + gKey[ 39 ] * ( MAG + speed ) );
-	gY = Math.max( MESH             , gY - gKey[ 38 ] * ( MAG + speed ) );
-	gY = Math.min( HEIGHT - MESH * 2, gY + gKey[ 40 ] * ( MAG + speed ) );
+	gX = Math.max( MESH             , gX - gKey[ LEFT_KEY ] * ( MAG + speed ) );
+	gX = Math.min( WIDTH - MESH * 2 , gX + gKey[ RIGHT_KEY ] * ( MAG + speed ) );
+	gY = Math.max( MESH             , gY - gKey[ UP_KEY ] * ( MAG + speed ) );
+	gY = Math.min( HEIGHT - MESH * 2, gY + gKey[ DOWN_KEY ] * ( MAG + speed ) );
 
-	for( let i = 0; i < 4 + gScore / 20; i++ ) {
+	for( let i = 0; i < 4 + gScore / 22; i++ ) {
 		for( let i = gBall.length - 1; i >= 0; i-- ) {
 			if( gBall[ i ].tick() ) {
 				gLife--;
 				gBall.splice( i, 1 );
 			}
+		}
+	}
+
+	if ( gBall.length <= 1 ) {
+		for( let i = 0; i < 2; i++ ) {
+			gBall.push( new Ball( ballCount % 3 ) );
+			ballCount++;
 		}
 	}
 }
@@ -182,14 +195,16 @@ ws.onmessage=function( event ) {
 
 				if( message == "ball_add" ) {
 					console.log( "ball add command" );
-					gBall.push( new Ball( 0 ) );
-					gBall.push( new Ball( 1 ) );
-					gBall.push( new Ball( 2 ) );
+					for( let i = 0; i < 3; i++ ) {
+						gBall.push( new Ball( ballCount % 3 ) );
+						ballCount++;
+					}
 				}
 				else if( message == "life_up" ) {
 					console.log( "life up command" );
 					gLife += 2;
-					gBall.push( new Ball( 3 ) );
+					gBall.push( new Ball( ballCount % 3 ) );
+					ballCount++;
 				}
 				else if( message == "speed_up" ) {
 					console.log( "speed up command" );
