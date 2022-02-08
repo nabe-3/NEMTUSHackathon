@@ -118,7 +118,7 @@ function tick() {
 	gY = Math.max( MESH             , gY - gKey[ UP_KEY ] * ( MAG + speed ) );
 	gY = Math.min( HEIGHT - MESH * 2, gY + gKey[ DOWN_KEY ] * ( MAG + speed ) );
 
-	for( let i = 0; i < 4 + gScore / 22; i++ ) {
+	for( let i = 0; i < 4 + gScore / 26; i++ ) {
 		for( let i = gBall.length - 1; i >= 0; i-- ) {
 			if( gBall[ i ].tick() ) {
 				gLife--;
@@ -127,7 +127,14 @@ function tick() {
 		}
 	}
 
-	if ( gBall.length <= 1 ) {
+	for( let i = 0; i < 10 + gScore / 38; i++ ) {
+		if( gBall[ 0 ].tick() ) {
+			gLife--;
+			gBall.splice( 0, 1 );
+		}
+	}
+
+	if ( gBall.length <= 2 ) {
 		gBall.push( new Ball( ballCount % 3 ) );
 		ballCount++;
 	}
@@ -208,7 +215,7 @@ ws.onmessage=function( event ) {
 					console.log( "speed up command" );
 					if ( speed <= 16 ) speed += 4;
 				}
-				else if ( message == "speed_down" ) {
+				else if( message == "speed_down" ) {
 					console.log( "speed down command" );
 					if ( speed > 4 ) speed -= 4;
 				}
@@ -228,7 +235,7 @@ ws.onmessage=function( event ) {
 }
 
 ws.onclose = function( event ) {
-	console.log("connection closed" );
+	console.log( "connection closed" );
 }
 
 ws.onerror = function() {
