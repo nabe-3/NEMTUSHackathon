@@ -128,10 +128,8 @@ function tick() {
 	}
 
 	if ( gBall.length <= 1 ) {
-		for( let i = 0; i < 2; i++ ) {
-			gBall.push( new Ball( ballCount % 3 ) );
-			ballCount++;
-		}
+		gBall.push( new Ball( ballCount % 3 ) );
+		ballCount++;
 	}
 }
 
