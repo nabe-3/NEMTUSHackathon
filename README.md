@@ -20,7 +20,7 @@ https://nabe-3.github.io/NEMTUSHackathon/
 Symbolメインネットのトランザクションを送ると、ゲームに影響を与えることが出来ます。  
 GAME OVERになってから送っても反映されます。  
 
-![symball](https://user-images.githubusercontent.com/99067358/152674879-7353de86-198b-4a72-a3a6-f0adc5d13d17.png)
+![symball](https://user-images.githubusercontent.com/99067358/153734839-59b3af2a-ab94-44ec-b295-98307a0430b0.png)
 
 ## コマンドの送り方
 Symbolのメインネットで以下のトランザクションを送ってください。  
