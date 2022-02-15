@@ -2,7 +2,8 @@
 https://hackathon-2022.nemtus.com/  
 ハッカソン参加用のゲームプログラムです。    
 プレイは以下。  
-https://nabe-3.github.io/NEMTUSHackathon/
+https://nabe-3.github.io/NEMTUSHackathon/  
+注意：ブラウザがChromeの場合、SSS Extensionプラグインが有効だと正常に動作しません。
 
 ## 作品コンセプト
 視聴者参加型の実況配信用ゲームです。  
