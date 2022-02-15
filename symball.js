@@ -86,6 +86,18 @@ function draw() {
 	g.fillText( "LIFE " + gLife, MESH * 25, MESH - 2 );
 	g.fillText( "S Y M B A L L", WIDTH / 2 - MESH * 3, MESH - 2 );
 
+	g.fillStyle = "#dddddd";
+	g.fillText( "以下のトランザクションを送るとゲームに影響を与えられます。", MESH, HEIGHT + MESH );
+	g.fillText( "宛先：NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY", MESH, HEIGHT + MESH * 2);
+	g.fillText( "XYM転送量：0.000001以上", MESH, HEIGHT + MESH * 3);
+	g.fillText( "メッセージに以下のいずれかのコマンドを入力して発行", MESH, HEIGHT + MESH * 4);
+	g.fillText( " ball_up　：ボールが3個増えます", MESH, HEIGHT + MESH * 5);
+	g.fillText( " life_up　：ライフが2つ増えます。", MESH, HEIGHT + MESH * 6);
+	g.fillText( " speed_up　：自機の移動速度がアップします", MESH, HEIGHT + MESH * 7);
+	g.fillText( " speed_down　：自機の移動速度がダウンします", MESH, HEIGHT + MESH * 8);
+	g.fillText( " score_up　：転送したXYM分のスコアがアップします", MESH, HEIGHT + MESH * 9);
+	g.fillText( " 上記以外　：メッセージとして表示されます。半角英数字のみ", MESH, HEIGHT + MESH * 11);
+	
 	g.fillStyle = "#777777";
 	g.fillText( text[0], 300, 180 );
 	g.fillText( text[1], 80,  270 );
