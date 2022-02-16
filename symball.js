@@ -91,7 +91,7 @@ function draw() {
 	g.fillText( "宛先：NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY", MESH, HEIGHT + MESH * 2);
 	g.fillText( "XYM転送量：0.000001以上", MESH, HEIGHT + MESH * 3);
 	g.fillText( "メッセージに以下のいずれかのコマンドを入力して発行", MESH, HEIGHT + MESH * 4);
-	g.fillText( " ball_up　：ボールが3個増えます", MESH, HEIGHT + MESH * 5);
+	g.fillText( " ball_add　：ボールが3個増えます", MESH, HEIGHT + MESH * 5);
 	g.fillText( " life_up　：ライフが2つ増えます。", MESH, HEIGHT + MESH * 6);
 	g.fillText( " speed_up　：自機の移動速度がアップします", MESH, HEIGHT + MESH * 7);
 	g.fillText( " speed_down　：自機の移動速度がダウンします", MESH, HEIGHT + MESH * 8);
