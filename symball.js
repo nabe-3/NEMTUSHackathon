@@ -5,20 +5,24 @@ const RIGHT_KEY = 39;
 const DOWN_KEY 	= 40;
 const WIDTH 	= 720;
 const HEIGHT 	= 540;
-const MAG 		= 6;
-const MESH 		= 24;
+const MAG		= 6;
+const MESH		= 24;
 const TIMER_INTERVAL = 33;
+const INIT_BALL = 10;
 
 var gStyle = "#ff00ff";
 var gX = WIDTH / 2;
 var gY = HEIGHT - MESH * 3;
 var gScore = 0;
-var gLife = 5;
+var gLife = 8;
 var gKey = new Uint8Array( 0x100 );
 var gTimer;
 var gBall = [];
 var speed = 0;
 var text = ["", "", "", "", "", ""];
+var log = ["0","0","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-"];
+var xymCount = 0;
+var cmdCount = 0;
 var textCount = 0;
 var ballCount = 0;
 var gColor = [ "#ffcc00", "#00ffff", "#00ff99" ];
@@ -86,26 +90,37 @@ function draw() {
 	g.fillText( "LIFE " + gLife, MESH * 25, MESH - 2 );
 	g.fillText( "S Y M B A L L", WIDTH / 2 - MESH * 3, MESH - 2 );
 
+	g.fillStyle = "#777777";
+	g.fillText( text[0], 270, 180 );
+	g.fillText( text[1], 80,  270 );
+	g.fillText( text[2], 80,  420 );
+	g.fillText( text[3], 80,  120 );
+	g.fillText( text[4], 270, 480 );
+	g.fillText( text[5], 270, 330 );
+
+	g.font = "20px monospace";
 	g.fillStyle = "#dddddd";
 	g.fillText( "以下のトランザクションを送るとゲームに影響を与えられます。", MESH, HEIGHT + MESH );
 	g.fillText( "宛先：NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY", MESH, HEIGHT + MESH * 2);
 	g.fillText( "XYM転送量：0.000001以上", MESH, HEIGHT + MESH * 3);
 	g.fillText( "メッセージに以下のいずれかのコマンドを入力して発行", MESH, HEIGHT + MESH * 4);
-	g.fillText( " ball_add　：ボールが3個増えます", MESH, HEIGHT + MESH * 5);
+	g.fillText( " ball_up　：ボールが3個増えます", MESH, HEIGHT + MESH * 5);
 	g.fillText( " life_up　：ライフが2つ増えます。", MESH, HEIGHT + MESH * 6);
 	g.fillText( " speed_up　：自機の移動速度がアップします", MESH, HEIGHT + MESH * 7);
 	g.fillText( " speed_down　：自機の移動速度がダウンします", MESH, HEIGHT + MESH * 8);
 	g.fillText( " score_up　：転送したXYM分のスコアがアップします", MESH, HEIGHT + MESH * 9);
 	g.fillText( " 上記以外　：メッセージとして表示されます。半角英数字のみ", MESH, HEIGHT + MESH * 10);
-	
-	g.fillStyle = "#777777";
-	g.fillText( text[0], 300, 180 );
-	g.fillText( text[1], 80,  270 );
-	g.fillText( text[2], 80,  420 );
-	g.fillText( text[3], 80,  120 );
-	g.fillText( text[4], 300, 480 );
-	g.fillText( text[5], 300, 330 );
 
+	g.fillStyle = "#202020";
+	g.fillRect( WIDTH, 0, WIDTH + MESH * 10, HEIGHT );
+
+	g.fillStyle = "#dddddd";
+	g.fillText( "XYM:" + log[0], WIDTH + MESH / 2, MESH );
+	g.fillText( "Tx :" + log[1], WIDTH + MESH / 2, MESH * 2);
+	for( let i = 2; i < log.length; i++ ) {
+		g.fillText( log[i], WIDTH + MESH / 2, MESH * (i + 2) );
+	}
+	
 	if( gLife <= 0 ) {
 		g.font = "48px monospace";
 		g.fillStyle = "#ffffff";
@@ -114,7 +129,7 @@ function draw() {
 }
 
 function start() {
-	for( let i = 0; i < 10; i++ ) {
+	for( let i = 0; i < INIT_BALL; i++ ) {
 		gBall.push( new Ball( ballCount % 3 ) );
 		ballCount++;
 	}
@@ -130,7 +145,7 @@ function tick() {
 	gY = Math.max( MESH             , gY - gKey[ UP_KEY ] * ( MAG + speed ) );
 	gY = Math.min( HEIGHT - MESH * 2, gY + gKey[ DOWN_KEY ] * ( MAG + speed ) );
 
-	for( let i = 0; i < 4 + gScore / 30; i++ ) {
+	for( let i = 0; i < 4 + gScore / 36 - textCount / 4; i++ ) {
 		for( let i = gBall.length - 2; i >= 0; i-- ) {
 			if( gBall[ i ].tick() ) {
 				gLife--;
@@ -139,7 +154,7 @@ function tick() {
 		}
 	}
 
-	for( let i = 0; i < 16 + gScore / 45; i++ ) {
+	for( let i = 0; i < 16 + gScore / 50 - textCount / 4; i++ ) {
 		if( gBall[ gBall.length - 1 ].tick() ) {
 			gLife--;
 			gBall.splice( gBall.length - 1, 1 );
@@ -167,11 +182,17 @@ function onPaint() {
 }
 
 window.onkeydown = function( ev ) {
-	gKey[ ev.keyCode ] = 1;
+	if ( ( ev.keyCode >= LEFT_KEY ) && ( ev.keyCode <= DOWN_KEY ) ) {
+		ev.preventDefault();
+		gKey[ ev.keyCode ] = 1;
+	}
 }
 
 window.onkeyup = function( ev ) {
-	gKey[ ev.keyCode ] = 0;
+	if ( ( ev.keyCode >= LEFT_KEY ) && ( ev.keyCode <= DOWN_KEY ) ) {
+		ev.preventDefault();
+		gKey[ ev.keyCode ] = 0;
+	}
 }
 
 window.onload = function() {
@@ -212,7 +233,15 @@ ws.onmessage=function( event ) {
 
 				if( message == "ball_add" ) {
 					console.log( "ball add command" );
-					for( let i = 0; i < 3; i++ ) {
+					var addNum = 0;
+					if ( gBall.length <= 12 ) {
+						addNum = 3;
+					}
+					else if ( gBall.length <= 18 ) {
+						addNum = 2;
+					}
+					else addNum = 1;
+					for( let i = 0; i < addNum; i++ ) {
 						gBall.push( new Ball( ballCount % 3 ) );
 						ballCount++;
 					}
@@ -225,7 +254,7 @@ ws.onmessage=function( event ) {
 				}
 				else if( message == "speed_up" ) {
 					console.log( "speed up command" );
-					if ( speed <= 16 ) speed += 4;
+					if ( speed <= 40 ) speed += 4;
 				}
 				else if( message == "speed_down" ) {
 					console.log( "speed down command" );
@@ -240,6 +269,14 @@ ws.onmessage=function( event ) {
 					text[textCount % 6] = message + " [" + ( amount / 1000000 ) + "XYM]";
 					textCount++;
 				}
+				cmdCount++;
+				xymCount += amount / 1000000;
+				log[0] = xymCount;
+				log[1] = cmdCount;
+				for( let i = log.length - 1; i >= 3; i-- ) {
+					log[i] = log[i - 1];
+				}
+				log[2] = message;
 				console.log( "end" );
 			}
 		}
