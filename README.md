@@ -25,7 +25,6 @@ Symbolメインネットのトランザクションを送ると、ゲームに�
 GAME OVERになってから送っても反映されます。  
 
 ![symball](https://user-images.githubusercontent.com/99067358/153734839-59b3af2a-ab94-44ec-b295-98307a0430b0.png)
-
 ## コマンドの送り方
 Symbolのメインネットで以下のトランザクションを送ってください。  
   
@@ -40,6 +39,10 @@ XYM転送量：0XYM以外（0.000001以上であればOK）
 　・score_up    ：転送したXYMの数量分スコアがアップします（ボールが速くなります）  
 　・上記以外のテキストを記入すると、記入したテキストがゲーム画面上に表示されます。  
  　 　半角英数字で記入してください。  
+  
+@ishidad2さん作のSymball用トランザクション送信ツールです。  
+ご活用ください。  
+https://ishidad2.github.io/2020_nemtus_hackathon/  
 
 ## 本作のSymbolブロックチェーン活用箇所
 webSocketで上記のアドレスへのunconfirmedAddedのイベントを購読しています。  
