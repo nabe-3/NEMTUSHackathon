@@ -102,7 +102,8 @@ function draw() {
 	g.font = "20px monospace";
 	g.fillStyle = "#dddddd";
 	g.fillText( "以下のトランザクションを送るとゲームに影響を与えられます。", MESH, HEIGHT + MESH );
-	g.fillText( "宛先：NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY", MESH, HEIGHT + MESH * 2);
+	//g.fillText( "宛先：NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY", MESH, HEIGHT + MESH * 2);
+	g.fillText( "宛先：NBRQB6VEXDK4WGIIE5RZZ7K6UFR4D4M4XHHIEUY", MESH, HEIGHT + MESH * 2);
 	g.fillText( "XYM転送量：0.000001以上", MESH, HEIGHT + MESH * 3);
 	g.fillText( "メッセージに以下のいずれかのコマンドを入力して発行", MESH, HEIGHT + MESH * 4);
 	g.fillText( " ball_up　：ボールが3個増えます", MESH, HEIGHT + MESH * 5);
@@ -212,11 +213,11 @@ ws.onmessage=function( event ) {
 	console.log( response );
 	if('uid' in response) { 
 		uid=response.uid;
-		transaction= '{"uid":"'+uid+'", "subscribe":"unconfirmedAdded/NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY"}'
+		transaction= '{"uid":"'+uid+'", "subscribe":"unconfirmedAdded/NBRQB6VEXDK4WGIIE5RZZ7K6UFR4D4M4XHHIEUY"}'
 		ws.send( transaction );
 		console.log( response.topic );
 	}
-	if(response.topic == "unconfirmedAdded/NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY") {
+	if(response.topic == "unconfirmedAdded/NBRQB6VEXDK4WGIIE5RZZ7K6UFR4D4M4XHHIEUY") {
 		var index = 2;
 		var message = "";
 		var str = response.data.transaction.message;
