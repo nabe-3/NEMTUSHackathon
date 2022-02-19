@@ -111,7 +111,7 @@ function draw() {
 	g.fillText( " speed_up　：自機の移動速度がアップします", MESH, HEIGHT + MESH * 7);
 	g.fillText( " speed_down　：自機の移動速度がダウンします", MESH, HEIGHT + MESH * 8);
 	g.fillText( " score_up　：転送したXYM分のスコアがアップします", MESH, HEIGHT + MESH * 9);
-	g.fillText( " 上記以外　：メッセージとして表示されます。半角英数字のみ", MESH, HEIGHT + MESH * 10);
+	g.fillText( " 上記以外　：メッセージとして表示されます", MESH, HEIGHT + MESH * 10);
 
 	g.fillStyle = "#202020";
 	g.fillRect( WIDTH, 0, WIDTH + MESH * 10, HEIGHT );
