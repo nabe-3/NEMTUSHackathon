@@ -19,6 +19,7 @@ var gKey = new Uint8Array( 0x100 );
 var gTimer;
 var gBall = [];
 var speed = 0;
+var bspeed = 0;
 var text = ["", "", "", "", "", ""];
 var log = ["0","0","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-","-"];
 var xymCount = 0;
@@ -26,6 +27,7 @@ var cmdCount = 0;
 var textCount = 0;
 var ballCount = 0;
 var gColor = [ "#ffcc00", "#00ffff", "#00ff99" ];
+var sound1 = new Audio("./src_views_resources_audio_ding.ogg");
 
 class Ball {
 	constructor( c ) {
@@ -145,7 +147,7 @@ function tick() {
 	gY = Math.max( MESH             , gY - gKey[ UP_KEY ] * ( MAG + speed ) );
 	gY = Math.min( HEIGHT - MESH * 2, gY + gKey[ DOWN_KEY ] * ( MAG + speed ) );
 
-	for( let i = 0; i < 4 + gScore / 36 - textCount / 4; i++ ) {
+	for( let i = 0; i < 4 + gScore / 36 - textCount / 5 + bspeed; i++ ) {
 		for( let i = gBall.length - 2; i >= 0; i-- ) {
 			if( gBall[ i ].tick() ) {
 				gLife--;
@@ -154,14 +156,14 @@ function tick() {
 		}
 	}
 
-	for( let i = 0; i < 16 + gScore / 50 - textCount / 4; i++ ) {
+	for( let i = 0; i < 16; i++ ) {
 		if( gBall[ gBall.length - 1 ].tick() ) {
 			gLife--;
 			gBall.splice( gBall.length - 1, 1 );
 		}
 	}
 
-	if ( gBall.length <= 2 ) {
+	if ( gBall.length <= 3 ) {
 		gBall.push( new Ball( ballCount % 3 ) );
 		ballCount++;
 	}
@@ -220,24 +222,42 @@ ws.onmessage=function( event ) {
 		var message = "";
 		var str = response.data.transaction.message;
 		var len = str.length;
+		if ( len == 0 ) return;
 
 		var amount = parseInt(response.data.transaction.mosaics[0].amount);
 		if( response.data.transaction.mosaics[0].id == "6BED913FA20223F8" ) {
 			if( amount >= 1 ) {
-				while ( index < len ) {
-					var tmpstr = str.substr( index, 2 );
-					message += String.fromCharCode( parseInt( tmpstr, 16 ) );
-					index += 2;
+				sound1.play();
+
+				// while ( index < len ) {
+				// 	var tmpstr = str.substr( index, 2 );
+				// 	message += String.fromCharCode( parseInt( tmpstr, 16 ) );
+				// 	index += 2;
+				// }
+				// console.log( "message:" + message );
+
+				var textDecoder = new TextDecoder( "utf-8", { fatal: true } );
+				var array = [];
+				for(let i = 2; i < len; i += 2) {
+					array.push(parseInt( str.slice( i, i + 2 ), 16 ));
 				}
-				console.log( "message:" + message );
+				var buffer = Uint8Array.from(array);
+				try {
+					var message = textDecoder.decode( buffer );
+				}
+				catch( e ) {
+					if( e.name == "TypeError" );
+					console.log( e.name );
+					return;
+				}
 
 				if( message == "ball_add" ) {
 					console.log( "ball add command" );
 					var addNum = 0;
-					if ( gBall.length <= 12 ) {
+					if( gBall.length <= 12 ) {
 						addNum = 3;
 					}
-					else if ( gBall.length <= 18 ) {
+					else if( gBall.length <= 18 ) {
 						addNum = 2;
 					}
 					else addNum = 1;
@@ -264,7 +284,13 @@ ws.onmessage=function( event ) {
 					console.log( "score up command" );
 					gScore += amount / 1000000;
 				}
-	        	        else {
+				else if( message == "bspeed_up" ) {
+					bspeed += amount / 1000000;
+				}
+				else if( message == "bspeed_down" ) {
+					bspeed -= amount / 1000000;
+				}
+				else {
 					console.log( "message command" );
 					text[textCount % 6] = message + " [" + ( amount / 1000000 ) + "XYM]";
 					textCount++;
