@@ -27,7 +27,6 @@ var cmdCount = 0;
 var textCount = 0;
 var ballCount = 0;
 var gColor = [ "#ffcc00", "#00ffff", "#00ff99" ];
-var sound1 = new Audio("./src_views_resources_audio_ding.ogg");
 
 class Ball {
 	constructor( c ) {
@@ -227,15 +226,6 @@ ws.onmessage=function( event ) {
 		var amount = parseInt(response.data.transaction.mosaics[0].amount);
 		if( response.data.transaction.mosaics[0].id == "6BED913FA20223F8" ) {
 			if( amount >= 1 ) {
-				sound1.play();
-
-				// while ( index < len ) {
-				// 	var tmpstr = str.substr( index, 2 );
-				// 	message += String.fromCharCode( parseInt( tmpstr, 16 ) );
-				// 	index += 2;
-				// }
-				// console.log( "message:" + message );
-
 				var textDecoder = new TextDecoder( "utf-8", { fatal: true } );
 				var array = [];
 				for(let i = 2; i < len; i += 2) {
