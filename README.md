@@ -29,7 +29,6 @@ GAME OVERになってから送っても反映されます。
 Symbolのメインネットで以下のトランザクションを送ってください。  
   
 宛先アドレス：NCJELEW7XZAYFS56PXW5RCL5CWABTT5YVLO6BFY  
-※:2/19だけ右のアドレスに変更します　NBRQB6VEXDK4WGIIE5RZZ7K6UFR4D4M4XHHIEUY  
 XYM転送量：0XYM以外（0.000001以上であればOK）  
 コマンド  
 　メッセージ欄に以下のいずれかのコマンドを記入してトランザクションを発行してください。  
